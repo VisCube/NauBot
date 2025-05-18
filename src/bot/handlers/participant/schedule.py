@@ -7,11 +7,7 @@ from src.bot.keyboards.participant import (
     get_class_keyboard,
     get_schedule_keyboard
 )
-from src.bot.templates.participant import (
-    BUTTON_SCHEDULE,
-    MESSAGE_CLASS,
-    MESSAGE_LEAVE, MESSAGE_SCHEDULE
-)
+from src.bot.templates.participant import *
 
 router = Router()
 
