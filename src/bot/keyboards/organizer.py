@@ -35,6 +35,34 @@ def get_feedback_keyboard() -> InlineKeyboardMarkup:
     ]
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
 
+def get_control_panel_keyboard() -> ReplyKeyboardMarkup:
+    keyboard = [
+        [
+            KeyboardButton(text=BUTTON_WRITE_POST)
+        ],
+        [
+            KeyboardButton(text=BUTTON_SEND_NOTIFICATION)
+        ],
+        [
+            KeyboardButton(text=BUTTON_ADD_CHAT_LINK)
+        ],
+        [
+            KeyboardButton(text=BUTTON_BACK)
+        ]
+    ]
+    return ReplyKeyboardMarkup(
+        keyboard=keyboard,
+        resize_keyboard=True,
+        input_field_placeholder="Выберите действие"
+    )
+
+def get_cancel_keyboard() -> ReplyKeyboardMarkup:
+    keyboard = [[KeyboardButton(text=BUTTON_CANCEL)]]
+    return ReplyKeyboardMarkup(
+        keyboard=keyboard,
+        resize_keyboard=True
+    )
+
 
 def get_question_keyboard(question: None) -> InlineKeyboardMarkup:
     # TODO использование модели вопроса
