@@ -1,6 +1,7 @@
 from aiogram import Router
 from aiogram.enums import ParseMode
 from aiogram.filters.command import CommandStart
+from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
 from src.bot.filters.user import ParticipantFilter
@@ -11,7 +12,8 @@ router = Router()
 
 
 @router.message(CommandStart(), ParticipantFilter())
-async def cmd_start(message: Message):
+async def cmd_start(message: Message, state: FSMContext):
+    await state.clear()
 
     await message.answer(
         text=MESSAGE_START.format(

@@ -1,5 +1,6 @@
 from aiogram import F, Router
 from aiogram.enums import ParseMode
+from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
 
 from src.bot.filters.user import ParticipantFilter
@@ -12,7 +13,9 @@ router = Router()
 
 
 @router.message(F.text == BUTTON_QUESTIONS, ParticipantFilter())
-async def cmd_questions(message: Message):
+async def cmd_questions(message: Message, state: FSMContext):
+    await state.clear()
+
     questions = [None, None, None]
 
     await message.answer(
@@ -23,7 +26,9 @@ async def cmd_questions(message: Message):
 
 
 @router.callback_query(F.data.startswith("faq_"), ParticipantFilter())
-async def callback_faq(callback: CallbackQuery):
+async def callback_faq(callback: CallbackQuery, state: FSMContext):
+    await state.clear()
+
     faq_id = int(callback.data.split("_")[1])
     faq_obj = None  # TODO получение и использование объекта из БД
 
@@ -38,7 +43,9 @@ async def callback_faq(callback: CallbackQuery):
 
 
 @router.message(ParticipantFilter())
-async def cmd_questions(message: Message):
+async def cmd_questions(message: Message, state: FSMContext):
+    await state.clear()
+
     question = message.text
     # TODO отправка вопроса
 

@@ -1,5 +1,6 @@
 from aiogram import F, Router
 from aiogram.enums import ParseMode
+from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
 
 from src.bot.filters.user import ParticipantFilter
@@ -13,7 +14,9 @@ router = Router()
 
 
 @router.message(F.text == BUTTON_SCHEDULE, ParticipantFilter())
-async def cmd_schedule(message: Message):
+async def cmd_schedule(message: Message, state: FSMContext):
+    await state.clear()
+
     # TODO получение и использование списка мастер-классов,
     #  на которые записан участник
 
@@ -31,7 +34,9 @@ async def cmd_schedule(message: Message):
 
 
 @router.message(F.text == BUTTON_CLASSES, ParticipantFilter())
-async def cmd_classes(message: Message):
+async def cmd_classes(message: Message, state: FSMContext):
+    await state.clear()
+
     # TODO получение и использование списка предстоящих мастер-классов
 
     classes = [None for _ in range(5)]  # TODO получение списка из БД
@@ -48,7 +53,9 @@ async def cmd_classes(message: Message):
 
 
 @router.callback_query(F.data.startswith("class_"), ParticipantFilter())
-async def callback_class(callback: CallbackQuery):
+async def callback_class(callback: CallbackQuery, state: FSMContext):
+    await state.clear()
+
     class_id = int(callback.data.split("_")[1])
     class_obj = None  # TODO получение объекта из БД
 
@@ -77,7 +84,9 @@ async def callback_class(callback: CallbackQuery):
 
 
 @router.callback_query(F.data.startswith("queue_"), ParticipantFilter())
-async def callback_queue(callback: CallbackQuery):
+async def callback_queue(callback: CallbackQuery, state: FSMContext):
+    await state.clear()
+
     class_id = int(callback.data.split("_")[1])
     class_obj = None  # TODO получение и использование объекта из БД
 
@@ -96,7 +105,9 @@ async def callback_queue(callback: CallbackQuery):
 
 
 @router.callback_query(F.data.startswith("depart_"), ParticipantFilter())
-async def callback_leave(callback: CallbackQuery):
+async def callback_leave(callback: CallbackQuery, state: FSMContext):
+    await state.clear()
+
     class_id = int(callback.data.split("_")[1])
     class_obj = None  # TODO получение и использование объекта из БД
 
