@@ -8,3 +8,5 @@ __pycache__/
 # IDEs
 .idea
 .vscode
+
+src/db.sqlite3
