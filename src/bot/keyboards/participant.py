@@ -60,3 +60,13 @@ def get_class_keyboard(cls: None) -> InlineKeyboardMarkup:
 
     keyboard = [[InlineKeyboardButton(text=text, callback_data=callback)]]
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
+
+
+def get_faq_keyboard(questions: list[None]) -> InlineKeyboardMarkup:
+    # TODO использование модели вопроса
+
+    keyboard = [
+        [InlineKeyboardButton(text=f"Вопрос {i}", callback_data=f"faq_{i}")]
+        for i in range(len(questions))
+    ]
+    return InlineKeyboardMarkup(inline_keyboard=keyboard)
