@@ -1,4 +1,5 @@
 from aiogram import Router
+from aiogram.enums import ParseMode
 from aiogram.filters.command import CommandStart
 from aiogram.types import Message
 
@@ -11,11 +12,11 @@ router = Router()
 
 @router.message(CommandStart(), OrganizerFilter())
 async def cmd_start(message: Message):
-
     await message.answer(
         text=MESSAGE_START.format(
             name=message.from_user.full_name,  # TODO ФИО?
             event="Меро_нейм"  # TODO название меро из конфига
         ),
-        reply_markup=get_menu_keyboard()
+        reply_markup=get_menu_keyboard(),
+        parse_mode=ParseMode.HTML
     )

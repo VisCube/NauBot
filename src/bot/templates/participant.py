@@ -62,3 +62,8 @@ MESSAGE_FAQ = """
 <b>Ответ</b>: <i>{answer}</i>
 """
 MESSAGE_QUESTIONED = "Вопрос отправлен организаторам."
+
+NOTIFICATION_ANSWER = """
+<b>Твой вопрос</b>: <i>{question}</i>
+<b>Ответ организатора</b>: <i>{answer}</i>
+"""
