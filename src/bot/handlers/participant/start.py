@@ -1,6 +1,7 @@
 from aiogram import Router
 from aiogram.enums import ParseMode
 from aiogram.filters.command import CommandStart
+from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -14,9 +15,10 @@ router = Router()
 
 
 @router.message(CommandStart(), ParticipantFilter())
-async def cmd_start(message: Message, db: AsyncSession):
+async def cmd_start(message: Message, db: AsyncSession, state: FSMContext):
+    await state.clear()
     await get_or_create_user(
-        db=db, 
+        db=db,
         telegram_id=message.from_user.id,
         full_name=message.from_user.full_name,
         username=message.from_user.username

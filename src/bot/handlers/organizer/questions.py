@@ -8,9 +8,9 @@ from src.bot.keyboards.organizer import (
     get_feedback_keyboard,
     get_question_keyboard
 )
-from src.bot.states.states import OrganizerStates
+from src.bot.states.organizer import OrganizerStates
 from src.bot.templates.organizer import *
-from src.bot.templates.participant import NOTIFICATION_ANSWER
+from src.bot.templates.participant import NOTIFICATION_ANSWERED
 
 router = Router()
 
@@ -73,7 +73,7 @@ async def input_answer(message: Message, state: FSMContext):
 
     await message.bot.send_message(
         chat_id=user_id,
-        text=NOTIFICATION_ANSWER.format(
+        text=NOTIFICATION_ANSWERED.format(
             question="ВоПрОс",
             answer=answer
         ),

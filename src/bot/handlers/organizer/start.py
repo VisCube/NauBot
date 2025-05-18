@@ -1,6 +1,7 @@
 from aiogram import Router
 from aiogram.enums import ParseMode
 from aiogram.filters.command import CommandStart
+from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -13,7 +14,9 @@ router = Router()
 
 
 @router.message(CommandStart(), OrganizerFilter())
-async def cmd_start(message: Message, db: AsyncSession):
+async def cmd_start(message: Message, db: AsyncSession, state: FSMContext):
+    await state.clear()
+
     await message.answer(
         text=MESSAGE_START.format(
             name=message.from_user.full_name,  # TODO ФИО?

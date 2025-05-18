@@ -27,3 +27,39 @@ MESSAGE_QUESTION = """
 BUTTON_IGNORE = "⏩ Пропустить вопрос"
 MESSAGE_IGNORE = "Вопрос пропущен."
 MESSAGE_ANSWERED = "Ответ отправлен участнику."
+
+PROMPT_USER = "Введите ID пользователя в Telegram:"
+PROMPT_ROLE = "Выберите роль участника:"
+MESSAGE_REGISTERED = "{role} зарегистрирован на мероприятие."
+
+BUTTON_CREATE = "❇️ Создать мастер-класс"
+BUTTON_DELETE = "❌ Удалить мастер-класс"
+
+MESSAGE_CLASSES = """
+Предстоящие мастер-классы:
+{classes}
+"""
+ITEM_CLASS = """
+<b>{start} — {end}</b>
+<i>{name}</i>
+"""
+MESSAGE_CLASS = """
+Мастер класс: <b>{name}</b>
+Время: <b>{start} — {end}</b>
+Спикер: <b>{speaker}</b>
+Описание: <i>{description}</i>
+
+{queue}
+"""
+ITEM_QUEUED = """
+Зарегистрировано: <b>{joined}</b> участников
+В очереди: <b>{queued}</b> участников
+"""
+MESSAGE_CREATED = "Мастер-класс {name} успешно создан."
+MESSAGE_DELETED = "Мастер-класс {name} успешно удалён."
+
+PROMPT_NAME = "Введите название мастер-класса:"
+PROMPT_DESC = "Введите описание мастер-класса:"
+PROMPT_START = "Введите время начала:"
+PROMPT_FINAL = "Введите время конца:"
+PROMPT_SLOTS = "Введите количество мест:"

@@ -1,12 +1,14 @@
 from aiogram import Router
 
-from .organizer import start
-from .participant import map, classes, start
+from .organizer import questions, start
+from .participant import classes, map, questions, start
 
 
 def get_routers() -> list[Router]:
     return [
         organizer.start.router,
+        organizer.classes.router,
+        organizer.roles.router,
         organizer.questions.router,
 
         participant.start.router,

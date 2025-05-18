@@ -63,7 +63,10 @@ MESSAGE_FAQ = """
 """
 MESSAGE_QUESTIONED = "Вопрос отправлен организаторам."
 
-NOTIFICATION_ANSWER = """
+NOTIFICATION_ANSWERED = """
 <b>Твой вопрос</b>: <i>{question}</i>
 <b>Ответ организатора</b>: <i>{answer}</i>
+"""
+NOTIFICATION_REGISTERED = """
+Поздравляем! Ты зарегистрирован на мероприятие в роли {role}.
 """

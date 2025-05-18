@@ -1,5 +1,6 @@
 from aiogram import F, Router
 from aiogram.enums import ParseMode
+from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -14,6 +15,10 @@ router = Router()
 
 
 @router.message(F.text == BUTTON_QUESTIONS, ParticipantFilter())
+async def cmd_questions(message: Message, state: FSMContext):
+    await state.clear()
+
+    questions = [None, None, None]
 async def cmd_questions(message: Message, db: AsyncSession):
     questions = await question_service.get_faq_questions(db)
 
@@ -25,7 +30,9 @@ async def cmd_questions(message: Message, db: AsyncSession):
 
 
 @router.callback_query(F.data.startswith("faq_"), ParticipantFilter())
-async def callback_faq(callback: CallbackQuery, db: AsyncSession):
+async def callback_faq(callback: CallbackQuery, db: AsyncSession, state: FSMContext):
+    await state.clear()
+
     faq_id = int(callback.data.split("_")[1])
     faq_obj = await question_service.get_question_by_id(db, faq_id)
 
@@ -47,5 +54,10 @@ async def cmd_ask_question(message: Message, db: AsyncSession):
         sender_id=message.from_user.id,
         text=question_text
     )
+async def cmd_questions(message: Message, state: FSMContext):
+    await state.clear()
+
+    question = message.text
+    # TODO отправка вопроса
 
     await message.answer(text=MESSAGE_QUESTIONED, parse_mode=ParseMode.HTML)
