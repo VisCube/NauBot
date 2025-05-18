@@ -31,10 +31,7 @@ def get_feedback_keyboard() -> InlineKeyboardMarkup:
         [InlineKeyboardButton(text=BUTTON_POLLS, callback_data="polls")],
         [InlineKeyboardButton(text=BUTTON_ACTIVITY, callback_data="activity")]
     ]
-    return InlineKeyboardMarkup(
-        inline_keyboard=keyboard,
-        input_field_placeholder=PROMPT_QUESTION
-    )
+    return InlineKeyboardMarkup(inline_keyboard=keyboard)
 
 
 def get_question_keyboard(question: None) -> InlineKeyboardMarkup:
@@ -49,3 +46,14 @@ def get_question_keyboard(question: None) -> InlineKeyboardMarkup:
         ],
     ]
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
+
+
+def get_role_keyboard() -> InlineKeyboardMarkup:
+    keyboard = [
+        [InlineKeyboardButton(text="Участник", callback_data="participant")],
+        [InlineKeyboardButton(text="Организатор", callback_data="organizer")],
+        [InlineKeyboardButton(text="Волонтёр", callback_data="volunteer")]
+    ]
+    return InlineKeyboardMarkup(
+        inline_keyboard=keyboard
+    )

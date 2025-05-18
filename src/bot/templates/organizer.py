@@ -27,3 +27,7 @@ MESSAGE_QUESTION = """
 BUTTON_IGNORE = "⏩ Пропустить вопрос"
 MESSAGE_IGNORE = "Вопрос пропущен."
 MESSAGE_ANSWERED = "Ответ отправлен участнику."
+
+PROMPT_USER = "Введите ID пользователя в Telegram:"
+PROMPT_ROLE = "Выберите роль участника:"
+MESSAGE_REGISTERED = "{role} зарегистрирован на мероприятие."
