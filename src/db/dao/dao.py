@@ -32,6 +32,8 @@ class BaseDAO:
 
     @connection
     async def delete(self, session, obj):
+        if not obj:
+            return False
         await session.delete(obj)
         await session.commit()
         return True
@@ -90,10 +92,30 @@ class RegistrationDAO(BaseDAO):
     def __init__(self):
         super().__init__(Registration)
 
+    @connection
+    async def add(self, session, registration: Registration):
+        stmt = select(Registration).filter_by(user_id=registration.user_id,
+                                              masterclass_id=registration.masterclass_id)
+        result = await session.execute(stmt)
+        if not result.scalar_one_or_none():
+            session.add(registration)
+            await session.commit()
+            await session.refresh(registration)
+        return result
+
 
 class QuestionDAO(BaseDAO):
     def __init__(self):
         super().__init__(Question)
+
+    @connection
+    async def get_oldest_unanswered(self, session):
+        stmt = (select(Question)
+                .filter_by(is_answered=False)
+                .order_by(Question.created_at.asc())
+                .limit(1))
+        result = await session.execute(stmt)
+        return result.scalar_one_or_none()
 
 
 class SurveyDAO(BaseDAO):
