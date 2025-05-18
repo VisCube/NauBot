@@ -1,3 +1,5 @@
+import math
+
 from aiogram.types import (
     InlineKeyboardButton, InlineKeyboardMarkup,
     KeyboardButton,
@@ -57,3 +59,32 @@ def get_role_keyboard() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(
         inline_keyboard=keyboard
     )
+
+
+def get_classes_keyboard(classes: list[None]) -> InlineKeyboardMarkup:
+    # TODO использование модели мастер-класса (имя и id)
+
+    last = len(classes)
+    side = math.ceil(math.sqrt(last))
+    first = InlineKeyboardButton(text=BUTTON_CREATE, callback_data="create")
+
+    keyboard = [[first]] + [
+        [
+            InlineKeyboardButton(
+                text=f"Class {j + 1}",
+                callback_data=f"class_{j}"
+            )
+            for j in range(i, min(i + side, last))
+        ]
+        for i in range(0, last, side)
+    ]
+    return InlineKeyboardMarkup(inline_keyboard=keyboard)
+
+
+def get_class_keyboard(cls: None) -> InlineKeyboardMarkup:
+    # TODO использование модели мастер-класса (id)
+
+    keyboard = [
+        [InlineKeyboardButton(text=BUTTON_DELETE, callback_data=f"delete_{0}")]
+    ]
+    return InlineKeyboardMarkup(inline_keyboard=keyboard)
