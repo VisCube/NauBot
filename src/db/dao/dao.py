@@ -1,4 +1,5 @@
 from sqlalchemy.future import select
+from sqlalchemy.orm import joinedload
 from src.db.models import *
 from src.db.base import connection
 
@@ -16,8 +17,8 @@ class BaseDAO:
 
     @connection
     async def get(self, session, **filters):
-        query = select(self.model).filter_by(**filters)
-        result = await session.execute(query)
+        stmt = select(self.model).filter_by(**filters)
+        result = await session.execute(stmt)
         return result.scalar_one_or_none()
 
     @connection
@@ -37,8 +38,8 @@ class BaseDAO:
 
     @connection
     async def list_all(self, session, **filters):
-        query = select(self.model).filter_by(**filters)
-        result = await session.execute(query)
+        stmt = select(self.model).filter_by(**filters)
+        result = await session.execute(stmt)
         return result.scalars().all()
 
 
@@ -57,10 +58,32 @@ class UserDAO(BaseDAO):
     def __init__(self):
         super().__init__(User)
 
+    @connection
+    async def add(self, session, user: User):
+        stmt = select(User).filter_by(tg_id=user.tg_id)
+        result = await session.execute(stmt)
+        if not result.scalar_one_or_none():
+            session.add(user)
+            await session.commit()
+            await session.refresh(user)
+        return result
+
 
 class MasterclassDAO(BaseDAO):
     def __init__(self):
         super().__init__(Masterclass)
+
+    @connection
+    async def get(self, session, **filters):
+        stmt = select(Masterclass).filter_by(**filters).options(joinedload(Masterclass.registrations))
+        result = await session.execute(stmt)
+        return result.unique().scalar_one_or_none()
+
+    @connection
+    async def list_all(self, session, **filters):
+        stmt = select(Masterclass).options(joinedload(Masterclass.registrations))
+        result = await session.execute(stmt)
+        return result.unique().scalars().all()
 
 
 class RegistrationDAO(BaseDAO):
