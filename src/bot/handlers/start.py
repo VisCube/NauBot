@@ -3,6 +3,7 @@ from aiogram.filters.command import CommandStart
 from aiogram.types import Message
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from src.bot import config
 from src.bot.handlers.services.user_service import get_or_create_user
 
 router = Router()
@@ -22,6 +23,6 @@ async def cmd_start(message: Message, db: AsyncSession):
     await message.answer(
         text=MESSAGE_START.format(
             name=message.from_user.full_name,
-            event="Меро_нейм"  # TODO название меро из конфига
+            event=config.EVENT_NAME
         )
     )

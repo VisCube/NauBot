@@ -8,6 +8,7 @@ from src.bot.filters.user import ParticipantFilter
 from src.bot.keyboards.participant import get_menu_keyboard
 from src.bot.templates.participant import MESSAGE_START
 from src.bot.handlers.services.user_service import get_or_create_user
+from src.bot.config import EVENT_NAME
 
 router = Router()
 
@@ -24,7 +25,7 @@ async def cmd_start(message: Message, db: AsyncSession):
     await message.answer(
         text=MESSAGE_START.format(
             name=message.from_user.full_name,
-            event="Меро_нейм"  # TODO название меро из конфига
+            event=EVENT_NAME
         ),
         reply_markup=get_menu_keyboard(),
         parse_mode=ParseMode.HTML

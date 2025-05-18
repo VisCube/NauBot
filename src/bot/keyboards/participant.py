@@ -65,11 +65,9 @@ def get_class_keyboard(cls: Masterclass, is_registered: bool = False, is_in_wait
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
 
 
-def get_faq_keyboard(questions: list[None]) -> InlineKeyboardMarkup:
-    # TODO использование модели вопроса
-
+def get_faq_keyboard(questions: list) -> InlineKeyboardMarkup:
     keyboard = [
-        [InlineKeyboardButton(text=f"Вопрос {i}", callback_data=f"faq_{i}")]
-        for i in range(len(questions))
+        [InlineKeyboardButton(text=f"{q.text[:20]}{'...' if len(q.text) > 20 else ''}", callback_data=f"faq_{q.id}")]
+        for q in questions if q is not None
     ]
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
