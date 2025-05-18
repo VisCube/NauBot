@@ -28,7 +28,7 @@ def get_menu_keyboard() -> ReplyKeyboardMarkup:
     )
 
 
-def get_schedule_keyboard(classes: list[None]) -> InlineKeyboardMarkup:
+def get_classes_keyboard(classes: list[None]) -> InlineKeyboardMarkup:
     # TODO использование модели мастер-класса (имя и id)
 
     last = len(classes)
@@ -50,7 +50,13 @@ def get_schedule_keyboard(classes: list[None]) -> InlineKeyboardMarkup:
 def get_class_keyboard(cls: None) -> InlineKeyboardMarkup:
     # TODO использование модели мастер-класса (id)
 
-    keyboard = [
-        [InlineKeyboardButton(text=BUTTON_LEAVE, callback_data=f"leave_{0}")]
-    ]
+    # TODO проверка записи пользователя
+    if False or False:
+        text = BUTTON_DEPART
+        callback = f"depart_{0}"
+    else:
+        text = BUTTON_JOIN if False else BUTTON_QUEUE
+        callback = f"queue_{0}"
+
+    keyboard = [[InlineKeyboardButton(text=text, callback_data=callback)]]
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
