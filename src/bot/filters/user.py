@@ -28,6 +28,6 @@ class OrganizerFilter(BaseFilter):
 
 
 class ParticipantFilter(BaseFilter):
-    async def __call__(self, message: Message) -> bool:
+    async def __call__(self, message: Message, db: AsyncSession) -> bool:
         # TODO проверка участников мероприятия
-        return False
+        return True

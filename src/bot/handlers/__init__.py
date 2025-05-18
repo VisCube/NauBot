@@ -1,6 +1,6 @@
 from aiogram import Router
 
-from .organizer import questions, start, control_panel, roles, classes
+from .organizer import classes, questions, roles, start
 from .participant import classes, map, questions, start
 
 

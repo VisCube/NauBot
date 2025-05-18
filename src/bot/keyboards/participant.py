@@ -8,6 +8,7 @@ from aiogram.types import (
 )
 
 from src.bot.templates.participant import *
+from src.db.models import Masterclass
 
 
 def get_menu_keyboard() -> ReplyKeyboardMarkup:
@@ -28,17 +29,19 @@ def get_menu_keyboard() -> ReplyKeyboardMarkup:
     )
 
 
-def get_classes_keyboard(classes: list[None]) -> InlineKeyboardMarkup:
-    # TODO использование модели мастер-класса (имя и id)
+def get_schedule_keyboard(classes: list) -> InlineKeyboardMarkup:
 
     last = len(classes)
-    side = math.ceil(math.sqrt(last))
+    if last == 0:
+        return InlineKeyboardMarkup(inline_keyboard=[])
+
+    side = max(1, math.ceil(math.sqrt(last)))
 
     keyboard = [
         [
             InlineKeyboardButton(
-                text=f"Class {j + 1}",
-                callback_data=f"class_{j}"
+                text=classes[j].name,
+                callback_data=f"class_{classes[j].id}"
             )
             for j in range(i, min(i + side, last))
         ]
@@ -47,26 +50,24 @@ def get_classes_keyboard(classes: list[None]) -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
 
 
-def get_class_keyboard(cls: None) -> InlineKeyboardMarkup:
-    # TODO использование модели мастер-класса (id)
-
-    # TODO проверка записи пользователя
-    if False or False:
+def get_class_keyboard(cls: Masterclass, is_registered: bool = False, is_in_waiting_list: bool = False) -> InlineKeyboardMarkup:
+    if not cls:
+        return InlineKeyboardMarkup(inline_keyboard=[])
+        
+    if is_registered or is_in_waiting_list:
         text = BUTTON_DEPART
-        callback = f"depart_{0}"
+        callback = f"depart_{cls.id}"
     else:
-        text = BUTTON_JOIN if False else BUTTON_QUEUE
-        callback = f"queue_{0}"
+        text = BUTTON_JOIN if cls.remaining_places > 0 else BUTTON_QUEUE
+        callback = f"queue_{cls.id}"
 
     keyboard = [[InlineKeyboardButton(text=text, callback_data=callback)]]
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
 
 
-def get_faq_keyboard(questions: list[None]) -> InlineKeyboardMarkup:
-    # TODO использование модели вопроса
-
+def get_faq_keyboard(questions: list) -> InlineKeyboardMarkup:
     keyboard = [
-        [InlineKeyboardButton(text=f"Вопрос {i}", callback_data=f"faq_{i}")]
-        for i in range(len(questions))
+        [InlineKeyboardButton(text=f"{q.text[:20]}{'...' if len(q.text) > 20 else ''}", callback_data=f"faq_{q.id}")]
+        for q in questions if q is not None
     ]
     return InlineKeyboardMarkup(inline_keyboard=keyboard)

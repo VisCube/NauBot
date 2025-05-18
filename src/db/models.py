@@ -8,6 +8,7 @@ from .database import Base
 
 
 class RoleEnum(PyEnum):
+    unregistered = "Незарегистрированный"
     participant = "Участник"
     admin = "Админ"
     organizer = "Организатор"
@@ -49,6 +50,8 @@ class Masterclass(Base):
 
     @property
     def remaining_places(self) -> int:
+        if not hasattr(self, "registrations") or self.registrations is None:
+            return self.capacity
         registered = sum(1 for r in self.registrations if not r.is_waiting_list)
         return max(self.capacity - registered, 0)
 
@@ -71,7 +74,9 @@ class Question(Base):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     sender_id: Mapped[int] = mapped_column(ForeignKey("users.tg_id"))
     masterclass_id: Mapped[Optional[int]] = mapped_column(ForeignKey("masterclasses.id"), nullable=True)
+    text: Mapped[str] = mapped_column(Text, nullable=False)
     is_answered: Mapped[bool] = mapped_column(default=False)
+    is_faq: Mapped[bool] = mapped_column(default=False)
     answer_text: Mapped[Optional[str]] = mapped_column(Text)
     created_at: Mapped[datetime] = mapped_column(default=datetime.now())
 
