@@ -1,7 +1,7 @@
 from aiogram import Router
 
-from .organizer import questions, start
-from .participant import classes, map, questions, start
+from .organizer import start
+from .participant import map, classes, start
 
 
 def get_routers() -> list[Router]:

@@ -1,6 +1,7 @@
 from aiogram import F, Router
 from aiogram.enums import ParseMode
 from aiogram.types import Message
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.bot.filters.user import ParticipantFilter
 from src.bot.templates.participant import *
@@ -9,7 +10,7 @@ router = Router()
 
 
 @router.message(F.text == BUTTON_MAP, ParticipantFilter())
-async def cmd_start(message: Message):
+async def cmd_start(message: Message, db: AsyncSession):
     # TODO получение ссылки на карту из конфига
 
     await message.answer_photo(

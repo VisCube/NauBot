@@ -8,6 +8,7 @@ from .database import Base
 
 
 class RoleEnum(PyEnum):
+    unregistered = "Незарегистрированный"
     participant = "Участник"
     admin = "Админ"
     organizer = "Организатор"
@@ -49,6 +50,8 @@ class Masterclass(Base):
 
     @property
     def remaining_places(self) -> int:
+        if not hasattr(self, "registrations") or self.registrations is None:
+            return self.capacity
         registered = sum(1 for r in self.registrations if not r.is_waiting_list)
         return max(self.capacity - registered, 0)
 

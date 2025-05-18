@@ -2,6 +2,7 @@ from aiogram import Router
 from aiogram.enums import ParseMode
 from aiogram.filters.command import CommandStart
 from aiogram.types import Message
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.bot.filters.user import OrganizerFilter
 from src.bot.keyboards.organizer import get_menu_keyboard
@@ -11,7 +12,7 @@ router = Router()
 
 
 @router.message(CommandStart(), OrganizerFilter())
-async def cmd_start(message: Message):
+async def cmd_start(message: Message, db: AsyncSession):
     await message.answer(
         text=MESSAGE_START.format(
             name=message.from_user.full_name,  # TODO ФИО?
