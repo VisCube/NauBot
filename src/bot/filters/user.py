@@ -1,5 +1,6 @@
 from aiogram.filters import BaseFilter
 from aiogram.types import Message
+from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 
 from src.db.models import User, RoleEnum
